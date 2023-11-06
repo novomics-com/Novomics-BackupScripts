@@ -65,3 +65,21 @@ for REMOTE_INFO in "${!REMOTE_SERVERS[@]}"; do
     done
 
 done
+
+# 윈도우 홈페이지 서버
+CSV_FILE="config.csv"
+
+# TARGET_HOST에 해당하는 라인을 찾아 비밀번호와 경로를 읽어옵니다.
+TARGET_HOST="192.168.30.10"
+while IFS=, read -r host port id password path
+do
+    LOCAL_TARGET_PATH="${LOCAL_BASE_PATH}/sw_source_backup/${host}"
+    
+    if [[ $host == $TARGET_HOST ]]; then
+        # sshpass와 scp를 이용해 파일 전송을 실행합니다.
+        # 현재 위치(디렉토리)에서 지정된 호스트의 경로로 파일을 복사합니다.
+        mkdir -p "${LOCAL_TARGET_PATH}"
+        echo "$id@$host":"$path"
+        sshpass -p $password scp -r -P $port "$id@$host":"$path" ./$LOCAL_TARGET_PATH/
+    fi
+done < "$CSV_FILE"
