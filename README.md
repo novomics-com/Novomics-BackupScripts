@@ -18,4 +18,26 @@
 1. 시스템이나 데이터베이스 설정에 맞게 스크립트 구성을 수정하세요.
 3. 각 백업 대상 서버에서 스크립트 실행: **`./{target}_backup_script.sh`**
 4. (선택사항) 크론 작업 또는 유사한 스케줄러 설정을 통해 실행을 자동화하세요.
+   예시)
+   ```
+   # -----------------------------------------------------------
+   # EDIT: 2023. 09. 13 from. MOONSIK SONG
+   # -----------------------------------------------------------
+   # 디스크 사용량 모니터링 매월 1일/15일 08:00
+    00 00 1 * * /data01/scripts/disk_monitoring.sh
+    00 00 16 * * /data01/scripts/disk_monitoring.sh
+    
+    # oracle DB backup script 매월 1월/15일 08:00
+    05 00 1 * * /data01/scripts/dump_backup.sh
+    05 00 16 * * /data01/scripts/dump_backup.sh
+    
+    # svn dump script 매월 1월/15일 08:00
+    10 00 1 * * /data01/scripts/svn_backup.sh
+    10 00 16 * * /data01/scripts/svn_backup.sh
+    
+    # /var/www cp script 매월 1월/15일 08:00
+    15 00 1 * * /data01/scripts/sw_source_backup.sh
+    15 00 16 * * /data01/scripts/sw_source_backup.sh
+    ```
+   
 5. `pulling_backup.sh`를 활용하여 백업 데이터를 가져옵니다.
